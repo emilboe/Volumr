@@ -12,17 +12,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   
     volumeSlider.addEventListener('input', () => {
-      volumeLabel.textContent = volumeSlider.value;
+      const volume = volumeSlider.value;
+      volumeLabel.textContent = volume;
+      
+      // Send message to the content script to update volume live
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0].id) {
+          chrome.tabs.sendMessage(tabs[0].id, { type: 'setVolume', volume: volume });
+  
+          // Save the volume setting
+          chrome.storage.sync.set({ volume: volume }, () => {
+            console.log(`Volume is set to ${volume}`);
+          });
+        }
+      });
     });
   
     saveButton.addEventListener('click', () => {
       const volume = volumeSlider.value;
+      
+      // Save the volume setting
       chrome.storage.sync.set({ volume: volume }, () => {
         console.log(`Volume is set to ${volume}`);
-        // Send message to the content script to update volume
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          chrome.tabs.sendMessage(tabs[0].id, { type: 'setVolume', volume: volume });
-        });
+        
+        // Close the popup
+        window.close();
       });
     });
   });
