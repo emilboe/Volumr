@@ -1,27 +1,80 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Volume Control</title>
-  <style>
-    body {
-      width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-    }
-    input[type="range"] {
-      width: 100%;
-      margin: 10px 0;
-    }
-  </style>
-</head>
-<body>
-  <label for="volume">Global volume: <span id="volumeLabel">50</span>%</label>
-  <input type="range" id="volume" min="0" max="100" value="50">
-  <button id="saveButton">Save</button>
 
-  <script src="popup.js"></script>
+<head>
+    <title>Volume Control</title>
+    <style>
+        :root {
+            --slider-track-background: linear-gradient(90deg, #00BFFF 30%, gray 0%);
+        }
+
+        body {
+            width: 200px;
+            display: flex;
+            gap: 1em;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            margin: 10px 0;
+            border-radius: 1rem;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: var(--slider-track-background);
+            border-radius: 1rem;
+
+        }
+
+        input[type="range"]:active::-webkit-slider-thumb {
+            transform: scale(1.05);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            /* Thumb width */
+            height: 20px;
+            /* Thumb height */
+            background: #333;
+            /* Thumb color */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+            border-radius: 50%;
+            /* Make the thumb round */
+            margin-top: -7px;
+            /* Offset to align the thumb vertically with the track */
+            cursor: pointer;
+        }
+
+        button {
+            border: none;
+            background: #333;
+            border-radius: 0.2rem;
+            padding: 0.3rem 0.6rem;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <label for="volume">Global volume: <span id="volumeLabel">50</span>%</label>
+    <input type="range" id="volume" min="0" max="100" value="50">
+    <button id="saveButton">Save</button>
+
+    <script src="popup.js"></script>
 </body>
+
 </html>
