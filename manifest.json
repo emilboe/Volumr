@@ -1,17 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "Append Div Extension",
+  "name": "volumr",
   "version": "1.0",
-  "description": "Appends a div into a specific element when the extension icon is clicked.",
+  "description": "Adds a volume adjuster to audio posts on tumblr.",
   "permissions": [
     "activeTab",
+    "storage",
     "scripting"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.tumblr.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
   "action": {
-    "default_popup": "",
+    "default_popup": "popup.html",
     "default_icon": {
       "16": "icon.png",
       "48": "icon.png",
