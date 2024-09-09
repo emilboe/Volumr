@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Append Div Extension",
+  "version": "1.0",
+  "description": "Appends a div into a specific element when the extension icon is clicked.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "",
+    "default_icon": {
+      "16": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  }
+}
