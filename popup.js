@@ -7,15 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const styleyo = document.getElementById('styleyo');
 
 
-    // Function to update slider styles
-    // function updateSliderStyle(styleClass) {
-    //     sliders.forEach(slider => {
-    //         slider.parentNode.className = '';
-    //         if (styleClass !== 'noStyle') {
-    //             slider.parentNode.classList.add(styleClass);
-    //         }
-    //     });
-    // }
+    chrome.storage.sync.get(['volume', 'style'], (result) => {
+        console.log('Volume:', result.volume, 'Style:', result.style);
+    });
 
 
     // Load the saved sliderstyle value from Chrome storage
@@ -27,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (radioButton) {
                 radioButton.checked = true;
             }
-            styleyo.innerHTML = result.style
+            // styleyo.innerHTML = result.style
 
             //updateSliderTrackBackground(`linear-gradient(90deg, #00BFFF ${volumeSlider.value}%, gray 0%)`);
-        } else { console.log('cant find slider.style') }
+        } else { console.log('cant find sliderstyle') }
     });
 
     // Add event listener to the form
