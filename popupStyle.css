@@ -60,4 +60,34 @@
   .sliderBar svg {
     fill: gray;
   }
-  
+  p{
+    margin-bottom:-.2rem;
+  }
+  p i{
+    font-size:90%;
+  }
+  form {
+    display: flex;
+    gap:1rem;
+    border-radius: 0.5rem;
+  }
+  form label {
+    display: flex;
+    color: gray;
+    flex-direction: column;
+    border: 1.5px solid gray;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  form label:hover{
+    border:1.5px solid #00bfff;
+    color:#00bfff;
+  }
+  form input[type="radio"] {
+    display: none;
+  }
+  form input:checked + label {
+    color: #fff;
+    background: #00bfff;
+    border-color: #00bfff;
+  }
