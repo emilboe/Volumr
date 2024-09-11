@@ -30,9 +30,6 @@ style.textContent = `
         background: #5c44bd;
         border-radius: 0;
     }
-        .circle{
-        padding-right:5px;
-        }
     input.slider.Circle::-webkit-slider-runnable-track {
         height: 1px;
         background: white;
@@ -41,10 +38,10 @@ style.textContent = `
         background: #a791ff;
     }
     input.slider.Circle::-webkit-slider-thumb {
-        height: 8px;
-        width: 8px;
+        height: 7px;
+        width: 7px;
         background: white;
-        margin-top: -3.3px;
+        margin-top: -3px;
         border-radius: 50%;
     }
     input.slider.None{
@@ -71,7 +68,7 @@ function getNthGrandparent(element, n) {
 function AppendSlider(audioElement, sliderStyle) {
 
     const secondGrandparentElement = getNthGrandparent(audioElement, 2);
-    const seventhGrandparentElement = getNthGrandparent(audioElement, 7);
+    const seventhGrandparentElement = getNthGrandparent(audioElement, 6);
     const seventhGrandparentsFirstChild = seventhGrandparentElement.querySelector(':first-child')
     var childElement = seventhGrandparentElement.querySelector('.volumr');
 
@@ -87,6 +84,7 @@ function AppendSlider(audioElement, sliderStyle) {
 
         seventhGrandparentElement.style = "display:grid; grid-template-columns: auto 1fr;"
         seventhGrandparentsFirstChild.style = "order: 2;"
+        seventhGrandparentsFirstChild.className = "mainContent;"
 
         // Create a new div for the volume control
         const newDiv = document.createElement('div');
@@ -99,7 +97,8 @@ function AppendSlider(audioElement, sliderStyle) {
         newDiv.style.display = 'flex';
         newDiv.style.alignItems = 'center';
         newDiv.style.justifyContent = 'center';
-        newDiv.className = 'volumr visible';
+        newDiv.className = `volumr ${sliderStyle.style !== 'None' ? 'visible' : ''}`;
+        //console.log(sliderStyle, 'is whats being used rite nao')
         newDiv.style.background = 'rgb(124, 92, 255)'; // Slider track color
         newDiv.style.order = '1';
 
@@ -144,16 +143,11 @@ function AppendSlider(audioElement, sliderStyle) {
 }
 
 async function run() {
-
-    const volume = await storage.get('volume');
     const sliderStyle = await storage.get('style');
     var audioElements = document.querySelectorAll('audio');
 
     //console.log(volume);
     //console.log(sliderStyle);
-
-
-
 
 
     audioElements.forEach(audioElement => {
@@ -248,11 +242,14 @@ function handleNewElement(mutationsList, observer) {
 }
 
 // Function that you want to run when a new element is created
-function myFunction(newElement) {
+async function myFunction(newElement) {
     console.log("Running function for new element:", newElement);
 
-    const sliderStyle = storage.get('style');
+    const volume = await storage.get('volume');
+    const sliderStyle = await storage.get('style');
+
     AppendSlider(newElement, sliderStyle)
+    setVolumeForAllAudioElements(volume.volume)
     // Add your custom logic here
 }
 
