@@ -44,15 +44,6 @@
     margin-top: -7px;
     cursor: pointer;
   }
-  
-  button {
-    border: none;
-    background: #333;
-    border-radius: 0.2rem;
-    padding: 0.3rem 0.6rem;
-    color: white;
-    cursor: pointer;
-  }
   .sliderBar {
     display: flex;
     gap: 15px;
@@ -76,6 +67,7 @@
     color: gray;
     flex-direction: column;
     border: 1.5px solid gray;
+    border-radius: 0.2rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
   }

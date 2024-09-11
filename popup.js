@@ -72,16 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update the slider background color live
         updateSliderTrackBackground(`linear-gradient(90deg, #00BFFF ${volume}%, gray 0%)`);
 
-        // Send message to the content script to update volume live
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (tabs[0].id) {
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'setVolume', volume: volume });
+        // Query for all Tumblr tabs
+        chrome.tabs.query({ url: "*://*.tumblr.com/*" }, (tabs) => {
+            // Iterate through all Tumblr tabs
+            tabs.forEach(tab => {
+                if (tab.id) {
+                    // Send message to each Tumblr tab to update volume live
+                    chrome.tabs.sendMessage(tab.id, { type: 'setVolume', volume: volume });
+                }
+            });
 
-                // Save the volume setting
-                chrome.storage.sync.set({ volume: volume }, () => {
-                    console.log(`Volume is set to ${volume}`);
-                });
-            }
+            // Save the volume setting
+            chrome.storage.sync.set({ volume: volume }, () => {
+                console.log(`Volume is set to ${volume}`);
+            });
         });
     });
 

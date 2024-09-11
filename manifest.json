@@ -6,7 +6,9 @@
   "permissions": [
     "activeTab",
     "storage",
-    "scripting"
+    "scripting",
+    "tabs",
+    "*://*.tumblr.com/*"
   ],
   "content_scripts": [
     {
