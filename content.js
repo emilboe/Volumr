@@ -1,56 +1,6 @@
 // Storing volume in the "local" storage area.
 const storage = chrome.storage.sync;
 
-
-const style = document.createElement('style');
-style.textContent = `
-    .visible{
-        width: 20px;
-        border-right: 2px solid #5c44bd;
-    }
-    input.slider::-webkit-slider-runnable-track {
-        -webkit-appearance: none;
-        appearance: none;
-        cursor: pointer;
-    }
-    input.slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-    }
-    input.slider.Block::-webkit-slider-runnable-track {
-        height: 20px;
-        background: rgb(124, 92, 255);
-    }
-    input.slider.Block:active::-webkit-slider-runnable-track {
-        background: rgb(124, 102, 255);
-    }
-    input.slider.Block::-webkit-slider-thumb {
-        height: 100%;
-        width: 15%;
-        background: #5c44bd;
-        border-radius: 0;
-    }
-    input.slider.Circle::-webkit-slider-runnable-track {
-        height: 1px;
-        background: white;
-    }
-    input.slider.Circle:active::-webkit-slider-runnable-track {
-        background: #a791ff;
-    }
-    input.slider.Circle::-webkit-slider-thumb {
-        height: 7px;
-        width: 7px;
-        background: white;
-        margin-top: -3px;
-        border-radius: 50%;
-    }
-    input.slider.None{
-        display:none;
-    }
-`;
-document.head.appendChild(style);
-
-
 // Function to get the nth ancestor of an element
 function getNthGrandparent(element, n) {
     let ancestor = element;
@@ -64,43 +14,34 @@ function getNthGrandparent(element, n) {
     return ancestor;
 }
 
-//function to append slider to audio element
+// Function to append slider to audio element
 function AppendSlider(audioElement, sliderStyle) {
 
+    // Declare the elements we want to update
     const secondGrandparentElement = getNthGrandparent(audioElement, 2);
-    const seventhGrandparentElement = getNthGrandparent(audioElement, 6);
-    const seventhGrandparentsFirstChild = seventhGrandparentElement.querySelector(':first-child')
-    var childElement = seventhGrandparentElement.querySelector('.volumr');
+    const sixthGrandparent = getNthGrandparent(audioElement, 6);
+    const firstChild = sixthGrandparent.querySelector(':first-child')
+    var volumrElement = sixthGrandparent.querySelector('.volumr');
 
-    if (childElement) {
-        childElement.remove();
-        console.log("Removed the child element with class 'volumr'.");
-    } else {
-        console.log("No child element with class 'volumr' found.");
+    // if a volumr element already exist it is removed before being remade
+    if (volumrElement) {
+        volumrElement.remove();
     }
 
 
-    if (secondGrandparentElement && seventhGrandparentElement) {
+    if (secondGrandparentElement && sixthGrandparent) {
 
-        seventhGrandparentElement.style = "display:grid; grid-template-columns: auto 1fr;"
-        seventhGrandparentsFirstChild.style = "order: 2;"
-        seventhGrandparentsFirstChild.className = "mainContent;"
+        // Style the parent to place the new element on the left and auto fit it
+        sixthGrandparent.style = "display:grid; grid-template-columns: auto 1fr;"
+        firstChild.style = "order: 2;"
 
-        // Create a new div for the volume control
-        const newDiv = document.createElement('div');
+        // Create a new container element for the volume control
+        const container = document.createElement('div');
 
         // Get the background color from the computed style of the second grandparent
         const computedStyle = window.getComputedStyle(secondGrandparentElement);
-        const elementHeight = computedStyle.height;
-        const elementWidth = computedStyle.width;
-        //newDiv.style.borderLeft = '2px solid rgba(255,255,255, 0.4)';
-        newDiv.style.display = 'flex';
-        newDiv.style.alignItems = 'center';
-        newDiv.style.justifyContent = 'center';
-        newDiv.className = `volumr ${sliderStyle.style !== 'None' ? 'visible' : ''}`;
-        //console.log(sliderStyle, 'is whats being used rite nao')
-        newDiv.style.background = 'rgb(124, 92, 255)'; // Slider track color
-        newDiv.style.order = '1';
+        container.className = `volumr ${sliderStyle.style !== 'None' ? 'visible' : ''}`;
+
 
         // Create the input slider
         const slider = document.createElement('input');
@@ -113,8 +54,8 @@ function AppendSlider(audioElement, sliderStyle) {
 
         slider.style.transform = 'rotate(-90deg)';
         slider.style.writingMode = 'bt-lr';
-        slider.style.width = `calc(${elementHeight} - 1.3px)`;
-        slider.style.height = `calc(${elementWidth} /10)%`;
+        slider.style.width = `calc(${computedStyle.height} - 1.3px)`;
+        slider.style.height = `calc(${computedStyle.width} /10)%`;
 
 
         slider.style.outline = 'none';
@@ -130,13 +71,13 @@ function AppendSlider(audioElement, sliderStyle) {
             audioElement.volume = event.target.value;
         });
 
-        newDiv.appendChild(slider);
-        seventhGrandparentElement.appendChild(newDiv);
+        container.appendChild(slider);
+        sixthGrandparent.appendChild(container);
     } else {
         if (!secondGrandparentElement) {
             console.error('The 2nd grandparent element was not found for an audio element.');
         }
-        if (!seventhGrandparentElement) {
+        if (!sixthGrandparent) {
             console.error('The 7th grandparent element was not found for an audio element.');
         }
     }
@@ -145,11 +86,8 @@ function AppendSlider(audioElement, sliderStyle) {
 async function run() {
     const sliderStyle = await storage.get('style');
     var audioElements = document.querySelectorAll('audio');
-
-    //console.log(volume);
-    //console.log(sliderStyle);
-
-
+    
+    // Append slider to all audio elements
     audioElements.forEach(audioElement => {
         AppendSlider(audioElement, sliderStyle)
     });
@@ -209,12 +147,6 @@ chrome.storage.sync.get(['volume'], (result) => {
 });
 
 
-window.addEventListener('load', function () {
-    console.log("Page is fully loaded");
-    run();
-});
-
-
 // Detecting when page loads new elements, adding volume slider to new audio elements
 function handleNewElement(mutationsList, observer) {
     for (let mutation of mutationsList) {
@@ -264,3 +196,7 @@ var config = { childList: true, subtree: true };
 
 // Start observing the target node for configured mutations
 observer.observe(targetNode, config);
+
+// when all is declared, start appending the sliders
+
+run();
