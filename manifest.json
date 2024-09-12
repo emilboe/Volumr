@@ -1,19 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "volumr",
-  "version": "1.1",
-  "description": "Adds a volume adjuster to audio posts on tumblr.",
+  "name": "Volumr",
+  "version": "1.2",
+  "description": "Volume adjuster for audio posts on Tumblr.",
+  "author": "Your Name or Organization",
+  "homepage_url": "https://yourwebsite.com/volumr",
   "permissions": [
     "activeTab",
     "storage",
     "scripting",
-    "tabs",
+    "tabs"
+  ],
+  "host_permissions": [
     "*://*.tumblr.com/*"
   ],
   "content_scripts": [
     {
       "matches": [
-        "https://www.tumblr.com/*"
+        "*://*.tumblr.com/*"
       ],
       "js": [
         "content.js"
@@ -26,10 +30,25 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon3.png",
-      "32": "icon3.png",
-      "48": "icon3.png",
-      "128": "icon3.png"
+      "16": "images/icon16.png",
+      "32": "images/icon32.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
     }
-  }
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["images/icon16.png", "images/icon32.png", "images/icon48.png", "images/icon128.png"],
+      "matches": ["*://*.tumblr.com/*"]
+    }
+  ]
 }
