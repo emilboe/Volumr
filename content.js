@@ -4,8 +4,16 @@ const storage = chrome.storage.sync;
 // Function to append slider to audio element
 async function appendSlider(audioElement, defaultVolume = 0.5) {
     const { style: sliderStyle, volume: storedVolume } = await storage.get(['style', 'volume']);
-    const volume = (storedVolume !== undefined ? storedVolume : defaultVolume) / 100;
+    let volume;
+    //if volume of element was previously set, then don't change it
+    if (audioElement.volume !== 1) {
+        volume = audioElement.volume;
+    } else {
+        volume = (storedVolume !== undefined ? storedVolume : defaultVolume) / 100;
+    }
+    
     audioElement.volume = volume;
+    
 
     const thirdGrandparent = audioElement.parentElement.parentElement.parentElement;
     if (!thirdGrandparent) {
@@ -29,7 +37,7 @@ async function appendSlider(audioElement, defaultVolume = 0.5) {
 
     // Create the input slider
     const slider = createSlider(audioElement, volume, sliderStyle);
-    
+
     // Append the slider in container to the correct parent element
     container.appendChild(slider);
     thirdGrandparent.appendChild(container);
@@ -43,10 +51,9 @@ function createSlider(audioElement, volume, sliderStyle) {
     slider.max = 1;
     slider.step = 0.01;
     slider.value = volume;
-    
+
     const parentStyle = window.getComputedStyle(audioElement.parentElement);
     slider.style.width = `calc(${parentStyle.height} - 1.3px)`;
-    //slider.style.height = `calc(${parentStyle.width} / 10)`;
 
     // Update volume of the individual audio element when slider changes
     slider.addEventListener('input', (event) => {
@@ -116,7 +123,6 @@ const observer = new MutationObserver(mutations => {
 
 // Function that you want to run when a new element is created
 async function updateElement(newElement) {
-    //TODO: don't adjust volume if individual audio is moved to side-player
     const { volume } = await storage.get('volume');
     appendSlider(newElement, volume);
 }
