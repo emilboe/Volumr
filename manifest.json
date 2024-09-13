@@ -3,8 +3,8 @@
   "name": "Volumr",
   "version": "1.2",
   "description": "Volume adjuster for audio posts on Tumblr.",
-  "author": "Your Name or Organization",
-  "homepage_url": "https://yourwebsite.com/volumr",
+  "author": "Emil Boen",
+  "homepage_url": "https://www.emilboen.dev/",
   "permissions": [
     "activeTab",
     "storage",
