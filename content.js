@@ -11,9 +11,8 @@ async function appendSlider(audioElement, defaultVolume = 0.5) {
     } else {
         volume = (storedVolume !== undefined ? storedVolume : defaultVolume) / 100;
     }
-    
+
     audioElement.volume = volume;
-    
 
     const thirdGrandparent = audioElement.parentElement.parentElement.parentElement;
     if (!thirdGrandparent) {
@@ -54,13 +53,20 @@ function createSlider(audioElement, volume, sliderStyle) {
 
     const parentStyle = window.getComputedStyle(audioElement.parentElement);
     slider.style.width = `calc(${parentStyle.height} - 1.3px)`;
+    updateBlockSliderTrackBackground(slider, volume);
 
     // Update volume of the individual audio element when slider changes
     slider.addEventListener('input', (event) => {
         audioElement.volume = event.target.value;
+        updateBlockSliderTrackBackground(slider, event.target.value);
     });
 
     return slider;
+}
+
+function updateBlockSliderTrackBackground(sliderElement, value) {
+    const newBackground = `linear-gradient(90deg, var(--tumblr-audio-dark-lavender) ${Math.round(value * 100)}%, var(--tumblr-audio-lavender) 0%)`;
+    sliderElement.style.setProperty('--block-slider-track-background', newBackground);
 }
 
 async function run() {
@@ -74,11 +80,14 @@ async function run() {
 
 function setVolumeForAllAudioElements(volume) {
     const normalizedVolume = volume / 100;
+
     document.querySelectorAll('audio, .slider').forEach(element => {
         if (element.tagName === 'AUDIO') {
             element.volume = normalizedVolume;
         } else {
             element.value = normalizedVolume;
+            //console.log('setting slider of element:', element)
+            updateBlockSliderTrackBackground(element, normalizedVolume)
         }
     });
 }
@@ -96,6 +105,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         setVolumeForAllAudioElements(request.volume);
     } else if (request.type === 'setSlider') {
         setSliderForAllAudioElements(request.style);
+        
     }
     sendResponse({ status: 'success' });
 });

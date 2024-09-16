@@ -1,19 +1,29 @@
+:root {
+    --tumblr-audio-lavender: rgb(124, 92, 255);
+    --tumblr-audio-dark-lavender: #5c44bd;
+    --tumblr-audio-darker-lavender: #422f8e;
+    --block-slider-track-background: linear-gradient(90deg, var(--tumblr-audio-dark-lavender    ) 50%, var(--tumblr-audio-lavender) 0%);
+}
+
 .volumr {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(124, 92, 255);
+    background: var(--tumblr-audio-lavender);
     order: 1;
 }
 
 .visible {
     width: 20px;
-    border-right: 2px solid #5c44bd;
+    border-right: 2px solid rgba(255,255,255,0.8);
+    /* var(--tumblr-audio-dark-lavender); */
 }
-.slider{
-    transform : rotate(-90deg);
-    appearance : none;
+
+.slider {
+    transform: rotate(-90deg);
+    appearance: none;
 }
+
 input.slider::-webkit-slider-runnable-track {
     -webkit-appearance: none;
     appearance: none;
@@ -27,26 +37,24 @@ input.slider::-webkit-slider-thumb {
 
 input.slider.Block::-webkit-slider-runnable-track {
     height: 20px;
-    background: rgb(124, 92, 255);
-}
+    /* background: rgb(124, 92, 255); */ 
+    background: var(--block-slider-track-background, linear-gradient(90deg, var(--tumblr-audio-dark-lavender) 0%, var(--tumblr-audio-lavender) 0%));
 
-input.slider.Block:active::-webkit-slider-runnable-track {
-    background: rgb(124, 102, 255);
 }
 
 input.slider.Block::-webkit-slider-thumb {
-    height: 105%;
+    height: 100%;
     width: 15%;
-    background: #5c44bd;
+    background: var(--tumblr-audio-darker-lavender);
 }
 
 input.slider.Circle::-webkit-slider-runnable-track {
     height: 1px;
-    background: #a791ff;
+    background: var(--tumblr-audio-dark-lavender);
 }
 
 input.slider.Circle:active::-webkit-slider-runnable-track {
-    background: #977dff;
+    background: var(--tumblr-audio-darker-lavender);
 }
 
 input.slider.Circle::-webkit-slider-thumb {
