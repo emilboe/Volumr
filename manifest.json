@@ -1,14 +1,13 @@
 {
   "manifest_version": 3,
   "name": "Volumr",
-  "version": "1.2",
+  "version": "1.2.2",
   "description": "Volume adjuster for audio posts on Tumblr.",
   "author": "Emil Boen",
   "homepage_url": "https://www.emilboen.dev/",
   "permissions": [
     "activeTab",
     "storage",
-    "scripting",
     "tabs"
   ],
   "host_permissions": [
