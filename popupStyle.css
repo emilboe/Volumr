@@ -1,8 +1,14 @@
 :root {
-  --slider-track-background: linear-gradient(90deg, #00bfff 30%, gray 0%);
+  --slider-track-background: linear-gradient(90deg, var(--tumblr-chat-blue) 50%, var(--tumblr-text-gray) 0%);
+  --tumblr-main-blue: #36465D;
+  --tumblr-chat-blue: #529ECC;
+  --tumblr-text-gray: #444444;
+  --tumblr-icon-gray: #9AA2AE;
 }
 
 body {
+  background-color: var(--tumblr-main-blue);
+  color: white;
   width: 250px;
   display: flex;
   gap: 1em;
@@ -38,7 +44,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 20px;
   height: 20px;
-  background: #333;
+  background: white;
   cursor: pointer;
   border-radius: 50%;
   margin-top: -7px;
@@ -51,7 +57,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .sliderBar svg {
-  fill: gray;
+  fill: var(--tumblr-icon-gray);
 }
 
 p {
@@ -70,17 +76,17 @@ form {
 
 form label {
   display: flex;
-  color: gray;
+  color: var(--tumblr-icon-gray);
   flex-direction: column;
-  border: 1.5px solid gray;
+  border: 1.5px solid var(--tumblr-icon-gray);
   border-radius: 0.2rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
 form label:hover {
-  border: 1.5px solid #00bfff;
-  color: #00bfff;
+  border: 1.5px solid var(--tumblr-chat-blue);
+  color: var(--tumblr-chat-blue);
 }
 
 form input[type="radio"] {
@@ -88,7 +94,7 @@ form input[type="radio"] {
 }
 
 form input:checked+label {
-  color: #fff;
-  background: #00bfff;
-  border-color: #00bfff;
+  color: white;
+  background: var(--tumblr-chat-blue);
+  border-color: var(--tumblr-chat-blue);
 }
