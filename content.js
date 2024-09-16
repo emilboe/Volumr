@@ -52,7 +52,7 @@ function createSlider(audioElement, volume, sliderStyle) {
     slider.value = volume;
 
     const parentStyle = window.getComputedStyle(audioElement.parentElement);
-    slider.style.width = `calc(${parentStyle.height} - 1.3px)`;
+    slider.style.width = `calc(${parentStyle.height} - 0.3px)`;
     updateBlockSliderTrackBackground(slider, volume);
 
     // Update volume of the individual audio element when slider changes
@@ -86,7 +86,6 @@ function setVolumeForAllAudioElements(volume) {
             element.volume = normalizedVolume;
         } else {
             element.value = normalizedVolume;
-            //console.log('setting slider of element:', element)
             updateBlockSliderTrackBackground(element, normalizedVolume)
         }
     });

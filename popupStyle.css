@@ -1,5 +1,5 @@
 :root {
-  --slider-track-background: linear-gradient(90deg, var(--tumblr-chat-blue) 50%, var(--tumblr-text-gray) 0%);
+  --slider-track-background: linear-gradient(90deg, var(--tumblr-chat-blue) 50%, var(--tumblr-icon-gray) 0%);
   --tumblr-main-blue: #36465D;
   --tumblr-chat-blue: #529ECC;
   --tumblr-text-gray: #444444;
@@ -82,6 +82,7 @@ form label {
   border-radius: 0.2rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  user-select: none;
 }
 
 form label:hover {
