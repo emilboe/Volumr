@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.volume !== undefined) {
             volumeSlider.value = result.volume;
             volumeLabel.textContent = result.volume;
-            updateSliderTrackBackground(`linear-gradient(90deg, #00BFFF ${volumeSlider.value}%, gray 0%)`);
+            updateSliderTrackBackground(`linear-gradient(90deg, var(--tumblr-chat-blue) ${volumeSlider.value}%, var(--tumblr-icon-gray) 0%)`);
         }
     });
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeLabel.textContent = volume;
 
         // Update the slider background color live
-        updateSliderTrackBackground(`linear-gradient(90deg, #00BFFF ${volume}%, gray 0%)`);
+        updateSliderTrackBackground(`linear-gradient(90deg, var(--tumblr-chat-blue) ${volume}%, var(--tumblr-icon-gray) 0%)`);
 
         // Query for all Tumblr tabs
         chrome.tabs.query({ url: "*://*.tumblr.com/*" }, (tabs) => {
