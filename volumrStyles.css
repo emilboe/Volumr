@@ -36,14 +36,14 @@ input.slider::-webkit-slider-thumb {
 }
 
 input.slider.Block::-webkit-slider-runnable-track {
-    height: 20px;
+    height: 20.5px;
     background: var(--block-slider-track-background, linear-gradient(90deg, var(--tumblr-audio-dark-lavender) 0%, var(--tumblr-audio-lavender) 0%));
 
 }
 
 input.slider.Block::-webkit-slider-thumb {
-    height: 100%;
-    width: 15%;
+    height: 20.4px;
+    width: 10%;
     background: var(--tumblr-audio-darker-lavender);
 }
 
@@ -60,7 +60,7 @@ input.slider.Circle::-webkit-slider-thumb {
     height: 8px;
     width: 8px;
     background: white;
-    margin-top: -3px;
+    margin-top: -2.9px;
     border-radius: 50%;
 }
 
