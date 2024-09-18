@@ -79,7 +79,10 @@ async function run() {
 }
 
 function setVolumeForAllAudioElements(volume) {
-    const normalizedVolume = volume / 100;
+    
+    let normalizedVolume;
+    if(volume) normalizedVolume = volume / 100;
+    else normalizedVolume = 0.5;
 
     document.querySelectorAll('audio, .slider').forEach(element => {
         if (element.tagName === 'AUDIO') {
