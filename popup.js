@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
-
+    
     // Set initial style based on the default selected radio button
     //const selectedStyle = document.querySelector('input[name="sliderStyle"]:checked').value;
     //updateSliderStyle(selectedStyle);
