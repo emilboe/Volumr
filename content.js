@@ -2,7 +2,7 @@
 const storage = chrome.storage.sync;
 
 // Function to append slider to audio element
-async function appendSlider(audioElement, defaultVolume = 0.5) {
+async function appendSlider(audioElement, defaultVolume = 50) {
     const { style: sliderStyle, volume: storedVolume } = await storage.get(['style', 'volume']);
     let volume;
     //if volume of element was previously set, then don't change it
@@ -44,7 +44,7 @@ async function appendSlider(audioElement, defaultVolume = 0.5) {
 
 function createSlider(audioElement, volume, sliderStyle) {
     const slider = document.createElement('input');
-    slider.setAttribute('class', `slider ${sliderStyle || 'Block'}`); // Default to 'Block' if undefined
+    slider.setAttribute('class', `slider ${sliderStyle || 'Circle'}`); // Default to 'Block' if undefined
     slider.type = 'range';
     slider.min = 0;
     slider.max = 1;
@@ -52,7 +52,7 @@ function createSlider(audioElement, volume, sliderStyle) {
     slider.value = volume;
 
     const parentStyle = window.getComputedStyle(audioElement.parentElement);
-    slider.style.width = `calc(${parentStyle.height} - 0.3px)`;
+    slider.style.width = `calc(${parentStyle.height} - 0.5px)`;
     updateBlockSliderTrackBackground(slider, volume);
 
     // Update volume of the individual audio element when slider changes
@@ -75,10 +75,12 @@ async function run() {
 
     // Append slider to all audio elements
     audioElements.forEach(audioElement => appendSlider(audioElement, volume));
+    console.log('runvol:', volume)
     setVolumeForAllAudioElements(volume);
 }
 
 function setVolumeForAllAudioElements(volume) {
+    console.log('setvol:' , volume)
     
     let normalizedVolume;
     if(volume) normalizedVolume = volume / 100;
@@ -104,6 +106,7 @@ function setSliderForAllAudioElements(style) {
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'setVolume') {
+        console.log('popvol:', request.volume)
         setVolumeForAllAudioElements(request.volume);
     } else if (request.type === 'setSlider') {
         setSliderForAllAudioElements(request.style);
@@ -115,6 +118,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // Load the saved volume value from Chrome storage when the content script is loaded
 chrome.storage.sync.get('volume', ({ volume }) => {
     if (volume !== undefined) {
+        console.log('syncvol:', volume)
         setVolumeForAllAudioElements(volume);
     }
 });
