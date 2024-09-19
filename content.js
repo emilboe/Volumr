@@ -54,7 +54,7 @@ function createSlider(audioElement, volume, sliderStyle) {
     slider.value = volume;
 
     const parentStyle = window.getComputedStyle(audioElement.parentElement);
-    slider.style.width = `calc(${parentStyle.height} - 0.5px)`;
+    slider.style.width = `calc(${parentStyle.height} )`;
     updateBlockSliderTrackBackground(slider, volume);
 
     // Update volume of the individual audio element when slider changes
@@ -67,13 +67,54 @@ function createSlider(audioElement, volume, sliderStyle) {
 }
 
 function updateBlockSliderTrackBackground(sliderElement, value) {
-    const newBackground = `linear-gradient(90deg, rgb(var(--purple-dark)) ${Math.round(value * 100)}%, rgb(var(--purple)) 0%)`;
+    const newBackground = `linear-gradient(90deg, var(--purple-dark) ${Math.round(value * 100)}%, rgb(var(--purple)) 0%)`;
     sliderElement.style.setProperty('--block-slider-track-background', newBackground);
 }
+
+function blendWithBlack(baseR, baseG, baseB, opacity = 0.25) {
+    const overlayR = 0;  // Black color RGB values
+    const overlayG = 0;
+    const overlayB = 0;
+
+    // Calculate new RGB values
+    const newR = Math.round(overlayR * opacity + baseR * (1 - opacity));
+    const newG = Math.round(overlayG * opacity + baseG * (1 - opacity));
+    const newB = Math.round(overlayB * opacity + baseB * (1 - opacity));
+
+    // Return the formatted rgb string
+    return `${newR}, ${newG}, ${newB}`;
+}
+
+function setPurpleDark() {
+    const root = document.documentElement;
+    // Get the value of the --purple CSS variable
+    const purpleVar = getComputedStyle(root).getPropertyValue('--purple').trim();
+
+    // Split the RGB values into an array
+    let [r, g, b] = purpleVar.split(',').map(Number);
+
+    // Create the new RGB string by blending with black
+    const darkPurple = blendWithBlack(r, g, b);
+
+    let [r2, g2, b2] = darkPurple.split(',').map(Number);
+
+    const evenDarkerPurple = blendWithBlack(r2, g2, b2);
+    const finalDarkPurple = (r2 === 0 && g2 === 0 && b2 === 0) ? '127, 127, 127' : darkPurple;
+    const finalDarkerPurple = (r2 === 0 && g2 === 0 && b2 === 0) ? '255, 255, 255' : evenDarkerPurple;
+
+    // Set the new value back as a CSS variable in the format rgb(r, g, b)
+    root.style.setProperty('--purple-dark', `rgb(${finalDarkPurple})`);
+    root.style.setProperty('--purple-darker', `rgb(${finalDarkerPurple})`);
+
+    console.log('Set purple-darker:', darkPurple, 'even darker:', evenDarkerPurple, 'finalDarkPurple:', finalDarkPurple);
+
+}
+
 
 async function run() {
     const { style: sliderStyle, volume } = await storage.get(['style', 'volume']);
     const audioElements = document.querySelectorAll('audio');
+    setPurpleDark()
 
     // Append slider to all audio elements
     audioElements.forEach(audioElement => appendSlider(audioElement, volume));
@@ -99,7 +140,7 @@ function setVolumeForAllAudioElements(volume) {
 function setSliderForAllAudioElements(style) {
     document.querySelectorAll('.slider').forEach(slider => {
         slider.className = `slider ${style}`;
-        slider.parentElement.className = `volumr ${style !== 'None' ? 'visible' : ''}`;
+        slider.parentElement.className = `volumr ${style !== 'None' ? 'visible' : ''} ${style === 'Circle' ? 'bg' : ''}`;
     });
 }
 
