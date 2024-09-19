@@ -48,7 +48,7 @@ input.slider.Block::-webkit-slider-runnable-track {
 }
 
 input.slider.Block::-webkit-slider-thumb {
-    height: 21px;
+    height: 22px;
     margin-top: -1px;
     width: 10%;
     background: var(--purple-darker);
@@ -68,7 +68,7 @@ input.slider.Circle::-webkit-slider-thumb {
     height: 8px;
     width: 8px;
     background: white;
-    margin-top: -2.9px;
+    margin-top: -2.8px;
     border-radius: 50%;
 }
 

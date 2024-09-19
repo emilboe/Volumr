@@ -34,7 +34,7 @@ async function appendSlider(audioElement, defaultVolume = 50) {
 
     // Create a new container element for the volume control
     const container = document.createElement('div');
-    container.className = `volumr ${sliderStyle !== 'None' ? 'visible' : ''}`;
+    container.className = `volumr ${sliderStyle !== 'None' ? 'visible' : ''} ${sliderStyle === 'Circle' ? 'bg' : ''}`;
 
     // Create the input slider
     const slider = createSlider(audioElement, volume, sliderStyle);
