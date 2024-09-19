@@ -26,6 +26,8 @@ async function appendSlider(audioElement, defaultVolume = 50) {
     // Remove existing volumr element if it exists
     if (volumrElement) volumrElement.remove();
 
+    //console.log('parentStyle', thirdGrandparent.style, firstChild.style)
+
     // Style the parent to place the new element on the left and auto fit it
     thirdGrandparent.style = "display:grid; grid-template-columns: auto 1fr;";
     firstChild.style = "order: 2;";
@@ -65,7 +67,7 @@ function createSlider(audioElement, volume, sliderStyle) {
 }
 
 function updateBlockSliderTrackBackground(sliderElement, value) {
-    const newBackground = `linear-gradient(90deg, var(--tumblr-audio-dark-lavender) ${Math.round(value * 100)}%, var(--tumblr-audio-lavender) 0%)`;
+    const newBackground = `linear-gradient(90deg, rgb(var(--purple-dark)) ${Math.round(value * 100)}%, rgb(var(--purple)) 0%)`;
     sliderElement.style.setProperty('--block-slider-track-background', newBackground);
 }
 
@@ -75,15 +77,13 @@ async function run() {
 
     // Append slider to all audio elements
     audioElements.forEach(audioElement => appendSlider(audioElement, volume));
-    console.log('runvol:', volume)
     setVolumeForAllAudioElements(volume);
 }
 
 function setVolumeForAllAudioElements(volume) {
-    console.log('setvol:' , volume)
-    
+
     let normalizedVolume;
-    if(volume) normalizedVolume = volume / 100;
+    if (volume) normalizedVolume = volume / 100;
     else normalizedVolume = 0.5;
 
     document.querySelectorAll('audio, .slider').forEach(element => {
@@ -106,11 +106,10 @@ function setSliderForAllAudioElements(style) {
 // Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'setVolume') {
-        console.log('popvol:', request.volume)
         setVolumeForAllAudioElements(request.volume);
     } else if (request.type === 'setSlider') {
         setSliderForAllAudioElements(request.style);
-        
+
     }
     sendResponse({ status: 'success' });
 });
@@ -118,7 +117,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 // Load the saved volume value from Chrome storage when the content script is loaded
 chrome.storage.sync.get('volume', ({ volume }) => {
     if (volume !== undefined) {
-        console.log('syncvol:', volume)
         setVolumeForAllAudioElements(volume);
     }
 });
