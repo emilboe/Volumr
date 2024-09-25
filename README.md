@@ -1,6 +1,19 @@
-# **Volumr** - *Tumblr Audio Volume Control Extension*
+<br />
+<p align="center">
+  <a href="https://chromewebstore.google.com/detail/Volumr/ehnpliakbfbdhceidfijfjbkfjhhodpe">
+    <img src="https://i.imgur.com/dJGZJT3.png" alt="Logo" width="80" height="80">
+  </a>
 
-Volumr is a Chrome extension that adds customizable volume controls to audio posts on Tumblr.
+  <h3 align="center">Volumr</h3>
+
+  <p align="center">
+    Chrome extension that adds customizable volume controls to audio posts on Tumblr.
+    <br />
+    <a href="https://chromewebstore.google.com/detail/Volumr/ehnpliakbfbdhceidfijfjbkfjhhodpe"><strong>App live on chrome web store »</strong></a>
+    <br />
+  </p>
+</p>
+
 
 ## **Features**  
 - 🎚️ **Individual Volume Control**: Adjust the volume for each audio post independently.  
@@ -9,7 +22,7 @@ Volumr is a Chrome extension that adds customizable volume controls to audio pos
 - 🔄 **Sync Across Devices**: Volume settings sync across Chrome browsers when you're signed in.  
 - 🔒 **Privacy-Focused**: The extension works exclusively on Tumblr pages, ensuring your privacy.
 
-## **Installation**  
+## **Local Installation**  
 1. Clone this repository or download the source code.  
 2. Open Chrome and navigate to `chrome://extensions`.  
 3. Enable **Developer Mode** in the top right corner.  
